@@ -4,27 +4,23 @@
  * @param {number} k
  */
 let subarraySum = function (nums, k) {
-    // 1. 使用哈希表保存前缀和及其出现的次数
-    const sumMap = new Map();
-    // 2. 初始化空子数组时，前缀和 0 出现 1 次
-    sumMap.set(0, 1);
 
-    // 3. 当前前缀和
-    let sum = 0;
-    let count = 0;  // 出现次数
+    //  1. 定义一个哈希表，用来存储每个元素位置的前缀和
+    let prevSumMap = new Map();
+    // 初始化哈希表中的第一个元素: 前缀和为 0 的情况默认出现 1 次
+    prevSumMap.set(0, 1);
 
-    // 遍历数组
+    // 2. 定义用来记录当前前缀和的变量 sum 和用来统计当前满足他条件的字数组的个数变量 count
+    let sum = 0, count = 0;
+
+    // 3. 遍历数组，统计截止每个元素的前缀和
+    // [1, 2, 3, 4, 5, 6]
     for (let i = 0; i < nums.length; i++) {
-        // 计算当前前缀和
+        // 统计以每个元素结尾的，前缀和
         sum += nums[i];
 
-        // 如果存在 sum - k, 其值即为
-        if (sumMap.has(sum - k)) {
-            count += sumMap.get(sum - k);
-        }
-
-        // 更新当前前缀和的计数
-        sumMap.set(sum, (sumMap.get(sum) || 0) + 1);
+        // 将每个前缀和都加入哈希表中
+        prevSumMap.set(sum, 1);
     }
-    return count;
+
 }
